@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 
 public class FilmsManagerTest {
 
-    //Лимит фильмов по умолчанию (5)
+
     //findAll
     @Test
     public void shouldBeEmpty() { //Вызов пустой афиши
@@ -17,7 +17,7 @@ public class FilmsManagerTest {
     }
 
     @Test
-    public void findAllOneFilm() { //Вывод одного фильма (ниже лимита по умолчанию)
+    public void findAllOneFilm() { //Вывод одного фильма
 
         FilmsManager manager = new FilmsManager();
 
@@ -30,7 +30,7 @@ public class FilmsManagerTest {
     }
 
     @Test
-    public void findAllFourFilms() { //Добавление 4-х фильмов (граничные значения)
+    public void findAllFourFilms() { //Добавление некоторого количества фильмов
 
         FilmsManager manager = new FilmsManager();
 
@@ -45,79 +45,12 @@ public class FilmsManagerTest {
         Assertions.assertArrayEquals(actual, expected);
     }
 
-    @Test
-    public void findAllFiveFilms() { //Добавление 5-ти фильмов (граничные значения)
 
-        FilmsManager manager = new FilmsManager();
-
-        manager.addFilm("1");
-        manager.addFilm("2");
-        manager.addFilm("3");
-        manager.addFilm("4");
-        manager.addFilm("5");
-
-        String[] actual = manager.findAll();
-        String[] expected = {"1", "2", "3", "4", "5"};
-
-        Assertions.assertArrayEquals(actual, expected);
-    }
-
-    @Test
-    public void findAllSixFilms() { //Добавление 6-ти фильмов (граничные значения)
-
-        FilmsManager manager = new FilmsManager();
-
-        manager.addFilm("1");
-        manager.addFilm("2");
-        manager.addFilm("3");
-        manager.addFilm("4");
-        manager.addFilm("5");
-        manager.addFilm("6");
-
-        String[] actual = manager.findAll();
-        String[] expected = {"1", "2", "3", "4", "5", "6"};
-
-        Assertions.assertArrayEquals(actual, expected);
-    }
-
-    @Test
-    public void findAllTenFilms() { //Вывод добавленных фильмов свыше лимита по умолчанию
-
-        FilmsManager manager = new FilmsManager();
-
-        manager.addFilm("1");
-        manager.addFilm("2");
-        manager.addFilm("3");
-        manager.addFilm("4");
-        manager.addFilm("5");
-        manager.addFilm("6");
-        manager.addFilm("7");
-        manager.addFilm("8");
-
-        String[] actual = manager.findAll();
-        String[] expected = {"1", "2", "3", "4", "5", "6", "7", "8"};
-
-        Assertions.assertArrayEquals(actual, expected);
-    }
 
     //findLast
+    //не указываем лимит (по умолчанию равен 5)
     @Test
-    public void findLastDefault() { //Вывод добавленных фильмов в обратном порядке
-
-        FilmsManager manager = new FilmsManager();
-
-        manager.addFilm("1");
-        manager.addFilm("2");
-        manager.addFilm("3");
-
-        String[] actual = manager.findLast();
-        String[] expected = {"3", "2", "1"};
-
-        Assertions.assertArrayEquals(actual, expected);
-    }
-
-    @Test
-    public void findLastUnderLimitDefault() { //Вывод всех добавленных фильмов в обратном порядке (граничные значения)
+    public void findLastFourFilmsLimitDefault() { //Добавление 4-х фильмов без указания лимита (граничное значение)
 
         FilmsManager manager = new FilmsManager();
 
@@ -133,7 +66,24 @@ public class FilmsManagerTest {
     }
 
     @Test
-    public void findLastOverLimitDefault() { //Вывод всех добавленных фильмов в обратном порядке (граничные значения)
+    public void findLastFiveFilmsLimitDefault() { //Добавление 5-ти фильмов без указания лимита (граничное значение)
+
+        FilmsManager manager = new FilmsManager();
+
+        manager.addFilm("1");
+        manager.addFilm("2");
+        manager.addFilm("3");
+        manager.addFilm("4");
+        manager.addFilm("5");
+
+        String[] actual = manager.findLast();
+        String[] expected = {"5", "4", "3", "2", "1"};
+
+        Assertions.assertArrayEquals(actual, expected);
+    }
+
+    @Test
+    public void findLastSixFilmsLimitDefault() { //Добавление 6-ти фильмов без указания лимита (граничное значение)
 
         FilmsManager manager = new FilmsManager();
 
@@ -151,9 +101,177 @@ public class FilmsManagerTest {
     }
 
     @Test
-    public void findLastLimitDefault() { //Вывод всех добавленных фильмов в обратном порядке (граничные значения)
+    public void findLastTenFilmsLimitDefault() { //Добавление 10-ти фильмов без указания лимита
 
         FilmsManager manager = new FilmsManager();
+
+        manager.addFilm("1");
+        manager.addFilm("2");
+        manager.addFilm("3");
+        manager.addFilm("4");
+        manager.addFilm("5");
+        manager.addFilm("6");
+        manager.addFilm("7");
+        manager.addFilm("8");
+        manager.addFilm("9");
+        manager.addFilm("10");
+
+        String[] actual = manager.findLast();
+        String[] expected = {"10", "9", "8", "7", "6"};
+
+        Assertions.assertArrayEquals(actual, expected);
+    }
+
+    @Test
+    public void findLastNoFilmsLimitDefault() { //Пустая афиша без указания лимита
+
+        FilmsManager manager = new FilmsManager();
+
+        String[] actual = manager.findLast();
+        String[] expected = {};
+
+        Assertions.assertArrayEquals(actual, expected);
+    }
+
+    //установлен лимит - 4 фильма
+    @Test
+    public void findLastNoFilmsLimitFour() { //Пустая афиша
+
+        FilmsManager manager = new FilmsManager(4);
+
+        String[] actual = manager.findLast();
+        String[] expected = {};
+
+        Assertions.assertArrayEquals(actual, expected);
+    }
+
+    @Test
+    public void findLastTenFilmsLimitFour() { //Добавляем 10 фильмов
+
+        FilmsManager manager = new FilmsManager(4);
+
+        manager.addFilm("1");
+        manager.addFilm("2");
+        manager.addFilm("3");
+        manager.addFilm("4");
+        manager.addFilm("5");
+        manager.addFilm("6");
+        manager.addFilm("7");
+        manager.addFilm("8");
+        manager.addFilm("9");
+        manager.addFilm("10");
+
+
+        String[] actual = manager.findLast();
+        String[] expected = {"10", "9", "8", "7"};
+
+        Assertions.assertArrayEquals(actual, expected);
+    }
+
+    @Test
+    public void findLastFourFilmsLimitFour() { //Добавляем 4 фильма (граничное значение)
+
+        FilmsManager manager = new FilmsManager(4);
+
+        manager.addFilm("1");
+        manager.addFilm("2");
+        manager.addFilm("3");
+        manager.addFilm("4");
+
+        String[] actual = manager.findLast();
+        String[] expected = {"4", "3", "2", "1"};
+
+        Assertions.assertArrayEquals(actual, expected);
+    }
+
+    @Test
+    public void findLastFiveFilmsLimitFour() { //Добавляем 5 фильмов (граничное значение)
+
+        FilmsManager manager = new FilmsManager(4);
+
+        manager.addFilm("1");
+        manager.addFilm("2");
+        manager.addFilm("3");
+        manager.addFilm("4");
+        manager.addFilm("5");
+
+        String[] actual = manager.findLast();
+        String[] expected = {"5", "4", "3", "2"};
+
+        Assertions.assertArrayEquals(actual, expected);
+    }
+
+    @Test
+    public void findLastThreeFilmsLimitFour() { //Добавляем 3 фильма (граничное значение)
+
+        FilmsManager manager = new FilmsManager(4);
+
+        manager.addFilm("1");
+        manager.addFilm("2");
+        manager.addFilm("3");
+
+
+        String[] actual = manager.findLast();
+        String[] expected = {"3", "2", "1"};
+
+        Assertions.assertArrayEquals(actual, expected);
+    }
+
+    //лимит - 5 фильмов
+    @Test
+    public void findLastNoFilmsLimitFive() { //Ни один фильм не добавляем
+
+        FilmsManager manager = new FilmsManager(5);
+
+        String[] actual = manager.findLast();
+        String[] expected = {};
+
+        Assertions.assertArrayEquals(actual, expected);
+    }
+
+    @Test
+    public void findLastTenFilmsLimitFive() { //Добавляем 10 фильмов
+
+        FilmsManager manager = new FilmsManager(5);
+
+        manager.addFilm("1");
+        manager.addFilm("2");
+        manager.addFilm("3");
+        manager.addFilm("4");
+        manager.addFilm("5");
+        manager.addFilm("6");
+        manager.addFilm("7");
+        manager.addFilm("8");
+        manager.addFilm("9");
+        manager.addFilm("10");
+
+
+        String[] actual = manager.findLast();
+        String[] expected = {"10", "9", "8", "7", "6"};
+
+        Assertions.assertArrayEquals(actual, expected);
+    }
+
+    @Test
+    public void findLastFourFilmsLimitFive() { //Добавляем 4 фильма (граничное значение)
+
+        FilmsManager manager = new FilmsManager(5);
+
+        manager.addFilm("1");
+        manager.addFilm("2");
+        manager.addFilm("3");
+        manager.addFilm("4");
+
+        String[] actual = manager.findLast();
+        String[] expected = {"4", "3", "2", "1"};
+
+        Assertions.assertArrayEquals(actual, expected);
+    }
+
+    @Test
+    public void findLastFiveFilmsLimitFive() { //Добавляем 5 фильмов (граничное значение)
+
+        FilmsManager manager = new FilmsManager(5);
 
         manager.addFilm("1");
         manager.addFilm("2");
@@ -167,79 +285,10 @@ public class FilmsManagerTest {
         Assertions.assertArrayEquals(actual, expected);
     }
 
-    //Лимит фильмов, установле вручную - 4 (граничное значение)
     @Test
-    public void findAllFilmsFourWhenLimitIsFour() { // Вывод 4-х фильмов при лимите 4 фильма (граничные значения)
+    public void findLastThreeFilmsLimitFive() { //Добавляем 6 фильмов (граничное значение)
 
-        FilmsManager manager = new FilmsManager(4);
-
-        manager.addFilm("1");
-        manager.addFilm("2");
-        manager.addFilm("3");
-        manager.addFilm("4");
-
-        String[] actual = manager.findAll();
-        String[] expected = {"1", "2", "3", "4"};
-
-        Assertions.assertArrayEquals(actual, expected);
-    }
-
-    @Test
-    public void findAllThreeFilmsWhenLimitIsFour() { // Вывод 3-х фильмов при лимите 4 фильма (граничные значения)
-
-        FilmsManager manager = new FilmsManager(4);
-
-        manager.addFilm("1");
-        manager.addFilm("2");
-        manager.addFilm("3");
-
-
-        String[] actual = manager.findAll();
-        String[] expected = {"1", "2", "3"};
-
-        Assertions.assertArrayEquals(actual, expected);
-    }
-
-    @Test
-    public void findAllFiveFilmsWhenLimitIsFour() { // Добавление 5-ти фильмов при лимите 4 (граничные значения)
-
-        FilmsManager manager = new FilmsManager(4);
-
-        manager.addFilm("1");
-        manager.addFilm("2");
-        manager.addFilm("3");
-        manager.addFilm("4");
-        manager.addFilm("5");
-
-        String[] actual = manager.findAll();
-        String[] expected = {"1", "2", "3", "4", "5"};
-
-        Assertions.assertArrayEquals(actual, expected);
-    }
-
-    //Лимит фильмов, установле вручную - 6 (граничное значение)
-
-    @Test
-    public void findAllFiveFilmsWhenLimitIsSix() { // Добавление 5-ти фильмов при лимите 6 (граничные значения)
-
-        FilmsManager manager = new FilmsManager(4);
-
-        manager.addFilm("1");
-        manager.addFilm("2");
-        manager.addFilm("3");
-        manager.addFilm("4");
-        manager.addFilm("5");
-
-        String[] actual = manager.findAll();
-        String[] expected = {"1", "2", "3", "4", "5"};
-
-        Assertions.assertArrayEquals(actual, expected);
-    }
-
-    @Test
-    public void findAllSixFilmsWhenLimitIsSix() { // Добавление 6-ти фильмов при лимите 6 (граничные значения)
-
-        FilmsManager manager = new FilmsManager(4);
+        FilmsManager manager = new FilmsManager(5);
 
         manager.addFilm("1");
         manager.addFilm("2");
@@ -248,16 +297,52 @@ public class FilmsManagerTest {
         manager.addFilm("5");
         manager.addFilm("6");
 
-        String[] actual = manager.findAll();
-        String[] expected = {"1", "2", "3", "4", "5", "6"};
+
+        String[] actual = manager.findLast();
+        String[] expected = {"6", "5", "4", "3", "2"};
+
+        Assertions.assertArrayEquals(actual, expected);
+    }
+
+    //лимит - 6 фильмов
+    @Test
+    public void findLastNoFilmsLimitSix() { //Ни один фильм не добавляем
+
+        FilmsManager manager = new FilmsManager(6);
+
+        String[] actual = manager.findLast();
+        String[] expected = {};
 
         Assertions.assertArrayEquals(actual, expected);
     }
 
     @Test
-    public void findAllSevenFilmsWhenLimitIsSix() { // Добавление 7-ми фильмов при лимите 6 (граничные значения)
+    public void findLastTenFilmsLimitSix() { //Добавляем 10 фильмов
 
-        FilmsManager manager = new FilmsManager(4);
+        FilmsManager manager = new FilmsManager(6);
+
+        manager.addFilm("1");
+        manager.addFilm("2");
+        manager.addFilm("3");
+        manager.addFilm("4");
+        manager.addFilm("5");
+        manager.addFilm("6");
+        manager.addFilm("7");
+        manager.addFilm("8");
+        manager.addFilm("9");
+        manager.addFilm("10");
+
+
+        String[] actual = manager.findLast();
+        String[] expected = {"10", "9", "8", "7", "6", "5"};
+
+        Assertions.assertArrayEquals(actual, expected);
+    }
+
+    @Test
+    public void findLastSevenFilmsLimitSix() { //Добавляем 7 фильмов (граничное значение)
+
+        FilmsManager manager = new FilmsManager(6);
 
         manager.addFilm("1");
         manager.addFilm("2");
@@ -267,8 +352,79 @@ public class FilmsManagerTest {
         manager.addFilm("6");
         manager.addFilm("7");
 
-        String[] actual = manager.findAll();
-        String[] expected = {"1", "2", "3", "4", "5", "6", "7"};
+        String[] actual = manager.findLast();
+        String[] expected = {"7", "6", "5", "4", "3", "2"};
+
+        Assertions.assertArrayEquals(actual, expected);
+    }
+
+    @Test
+    public void findLastFiveFilmsLimitSix() { //Добавляем 5 фильмов (граничное значение)
+
+        FilmsManager manager = new FilmsManager(6);
+
+        manager.addFilm("1");
+        manager.addFilm("2");
+        manager.addFilm("3");
+        manager.addFilm("4");
+        manager.addFilm("5");
+
+        String[] actual = manager.findLast();
+        String[] expected = {"5", "4", "3", "2", "1"};
+
+        Assertions.assertArrayEquals(actual, expected);
+    }
+
+    @Test
+    public void findLastThreeFilmsLimitSix() { //Добавляем 6 фильмов (граничное значение)
+
+        FilmsManager manager = new FilmsManager(6);
+
+        manager.addFilm("1");
+        manager.addFilm("2");
+        manager.addFilm("3");
+        manager.addFilm("4");
+        manager.addFilm("5");
+        manager.addFilm("6");
+
+
+        String[] actual = manager.findLast();
+        String[] expected = {"6", "5", "4", "3", "2", "1"};
+
+        Assertions.assertArrayEquals(actual, expected);
+    }
+
+    @Test
+    public void findLastNegativeLimitFilms() { //устанавливаем отрицательный лимит в менеджере
+
+        FilmsManager manager = new FilmsManager(- 6);
+
+        String[] actual = manager.findLast();
+        String[] expected = {};
+
+        Assertions.assertArrayEquals(actual, expected);
+    }
+
+
+    // Нулевой лимит в менеджере
+    @Test
+    public void findLastEmptyLimitFilms() {
+        FilmsManager manager = new FilmsManager(0);
+
+        String[] actual = manager.findLast();
+        String[] expected = {};
+
+        Assertions.assertArrayEquals(actual, expected);
+    }
+
+    @Test
+    public void findLastEmptyLimitFilmsAddOneFilms() { //добавляем один фильм (ожидаем пустой массив)
+        FilmsManager manager = new FilmsManager(0);
+
+        manager.addFilm("1");
+
+        String[] actual = manager.findLast();
+        String[] expected = {};
 
         Assertions.assertArrayEquals(actual, expected);
     }

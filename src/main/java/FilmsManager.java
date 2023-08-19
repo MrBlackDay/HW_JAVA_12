@@ -1,14 +1,18 @@
 public class FilmsManager {
-
-    private String[] films = new String[0];
     private int limit;
+    private String[] films = new String[0];
 
     public FilmsManager() {
+
         this.limit = 5;
     }
 
     public FilmsManager(int limit) {
-        this.limit = limit;
+        if (limit < 0) {
+            System.out.printf("Установлено некорректное значение, количество постеров не может быть отрицательным");
+        } else {
+            this.limit = limit;
+        }
     }
 
     public void addFilm(String film) {
@@ -22,15 +26,16 @@ public class FilmsManager {
 
 
     public String[] findAll() {
+
         return films;
     }
 
     public String[] findLast() {
         int length;
-        if (films.length < 5) {
+        if (films.length < limit) {
             length = films.length;
         } else {
-            length = 5;
+            length = limit;
         }
         String tmp[] = new String[length];
         for (int i = 0; i < tmp.length; i++) {
